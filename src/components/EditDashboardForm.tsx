@@ -35,7 +35,7 @@ const EditDashboardForm: FC<props> = ({ id, dName, setShowDialog }) => {
         <div className='dialog'>
             <form onSubmit={handleEdit}>
                 <div className="mb-6">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Dashboard</label>
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Edit Dashboard</label>
                     <input
                         type="text"
                         id="dname"
@@ -47,7 +47,17 @@ const EditDashboardForm: FC<props> = ({ id, dName, setShowDialog }) => {
                         disabled={false}
                     />
                 </div>
-                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
+                <div className='flex justify-between md:flex-col'>
+                    <button
+                        type="button"
+                        className="text-blue-700 border border-blue-700 hover:bg-blue-200 font-medium rounded-lg text-sm w-full sm:w-auto mx-1 py-2.5 text-center "
+                        onClick={() => setShowDialog(false)}
+                    >
+                        Cancel
+                    </button>
+                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm w-full sm:w-auto mx-1 py-2.5 text-center">Save</button>
+
+                </div>
             </form>
 
         </div>

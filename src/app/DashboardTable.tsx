@@ -1,34 +1,42 @@
 'use client'
-import React, { FC, useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LuLayoutDashboard } from 'react-icons/lu'
+import { HiOutlineEye, HiOutlineTrash } from 'react-icons/hi'
 import Link from 'next/link'
-import { GlobalContext } from '@/context/globalContext'
 
 
 const DashboardTable = () => {
     const [dashboards, setDashboards] = useState([])
 
-    const deleteDashboard = (id: string) => {
-        const date = Date.now()
-        let storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]")
-
-        // DELETE CURRENT DATA IN LOCAL STORAGE 
-        const index = storedLayoutData.findIndex((data: any) => data.id === id);
-        if (index !== -1) {
-            // Remove the item from the array
-            storedLayoutData.splice(index, 1);
-        }
-
-        // Update the modified array back to localStorage
-        localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
-        alert('data deleted')
-    }
-
-    useEffect(() => {
+    const fetchDashboards = () => {
         const storedLayouts = localStorage.getItem('layoutData')
         const layouts = storedLayouts ? JSON.parse(storedLayouts) : [];
         setDashboards(layouts)
-    }, [deleteDashboard])
+    }
+
+    const deleteDashboard = (id: string) => {
+        let storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]")
+
+        const isConfirmed = window.confirm('Are you sure you want to delete?');
+        if (isConfirmed) {
+            // DELETE CURRENT DATA IN LOCAL STORAGE 
+            const index = storedLayoutData.findIndex((data: any) => data.id === id);
+            if (index !== -1) {
+                // Remove the item from the array
+                storedLayoutData.splice(index, 1);
+            }
+
+            // Update the modified array back to localStorage
+            localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
+            alert('data deleted')
+            //update the ui
+            fetchDashboards()
+        }
+    }
+
+    useEffect(() => {
+        fetchDashboards()
+    }, [])
 
     return (
         <div>
@@ -48,14 +56,13 @@ const DashboardTable = () => {
                             <div className='flex relative justify-between items-center'>
                                 <p className='text-blue-200 p-3 text-sm'>{data.date}</p>
                                 <Link href={`/dashboard/${data.id}`} >
-                                    <button className='bg-blue-500 hover:bg-blue-700 text-white text-sm p-3 px-4 rounded lg:flex sm:hidden'>View</button>
+                                    <div className='hover:bg-blue-100 p-4'>
+                                        <HiOutlineEye />
+                                    </div>
                                 </Link>
-                                <button
-                                    className='bg-blue-500 hover:bg-blue-700 text-white text-sm p-3 px-4 rounded lg:flex sm:hidden'
-                                    onClick={() => deleteDashboard(data.id)}
-                                >
-                                    Delete
-                                </button>
+                                <div className='hover:bg-red-100 p-4' onClick={() => deleteDashboard(data.id)}>
+                                    <HiOutlineTrash className='text-red-900' />
+                                </div>
                             </div>
                         </li>
                     ))}

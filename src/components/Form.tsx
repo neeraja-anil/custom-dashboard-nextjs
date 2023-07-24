@@ -1,8 +1,11 @@
 import { GlobalContext } from '@/context/globalContext'
 import React, { FC, useState, useContext } from 'react'
 
+type props = {
+    setShowDialog: any
+}
 
-const Form: FC = () => {
+const Form: FC<props> = ({ setShowDialog }) => {
     const [dName, setDName] = useState('')
     const { layout } = useContext(GlobalContext)
 
@@ -14,7 +17,8 @@ const Form: FC = () => {
         const storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]");
         storedLayoutData.push(layoutData)
         localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
-        console.log(layout, dName)
+        alert('data saved')
+        setShowDialog(false)
     }
 
     return (

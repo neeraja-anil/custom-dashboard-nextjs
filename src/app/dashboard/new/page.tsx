@@ -42,7 +42,7 @@ export default function CreateDashboard() {
                             SAVE LAYOUT
                         </button>
                     </div>
-                    {showDialog && <Form />}
+                    {showDialog && <Form setShowDialog={setShowDialog} />}
 
                 </div>
                 {/* <------------end of top div---------------> */}

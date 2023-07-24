@@ -9,8 +9,8 @@ import { GlobalContext } from "@/context/globalContext";
 
 //props for viewing or changing layout after saving
 type props = {
-    savedDashboard: []
-    isEdit: boolean
+    savedDashboard?: []
+    isEdit?: boolean
 }
 
 const DraggableResizableChart: FC<props> = ({ savedDashboard, isEdit }): JSX.Element => {

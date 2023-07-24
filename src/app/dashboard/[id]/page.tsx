@@ -9,11 +9,20 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
     const [isEdit, setIsEdit] = useState(false)
     const [dashboard, setDashboard] = useState<{ [key: string]: any }>({})
 
-    useEffect(() => {
+    const fetchSavedDashboard = () => {
         const storedLayouts = localStorage.getItem('layoutData')
         const layouts = storedLayouts ? JSON.parse(storedLayouts) : [];
         const item = layouts.find((layout: { id: string; }) => layout.id === params.id)
         setDashboard(item)
+    }
+
+    const handleCancelEdit = () => {
+        fetchSavedDashboard()
+        setIsEdit(false)
+    }
+
+    useEffect(() => {
+        fetchSavedDashboard()
     }, [])
 
     return (
@@ -55,12 +64,22 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
                             </div>
                         }
                         <div className="mx-1">
-                            <button
-                                className="bg-blue-400 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-2  hover:border-transparent rounded"
-                                onClick={() => setIsEdit(!isEdit)}
-                            >
-                                {!isEdit ? 'EDIT LAYOUT' : 'CANCEL EDIT'}
-                            </button>
+                            {isEdit ? (
+                                <button
+                                    className="bg-blue-400 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-2  hover:border-transparent rounded"
+                                    onClick={handleCancelEdit}
+                                >
+                                    CANCEL EDIT
+                                </button>
+                            ) : (
+                                <button
+                                    className="bg-blue-400 hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-2  hover:border-transparent rounded"
+                                    onClick={() => setIsEdit(!isEdit)}
+                                >
+                                    EDIT LAYOUT
+                                </button>
+                            )}
+
                         </div>
 
                     </div>
@@ -69,7 +88,7 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
                 </div>
                 {/* <------------end of top div---------------> */}
             </div>
-            <div className="mx-4">
+            <div className={showDialog ? `blurredBg mx-4` : 'mx-4'}>
                 <DraggableResizableContainer savedDashboard={dashboard.layout} isEdit={isEdit} />
             </div>
 

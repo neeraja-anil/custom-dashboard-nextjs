@@ -24,10 +24,14 @@
   background: #555;
 }
 
+.blurredBg {
+  filter: blur(3px);
+}
+
 .dialog {
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 5rem;
+  right: 2rem;
   padding: 1rem;
   border-radius: 5px;
   background-color: lightblue;
