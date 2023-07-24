@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import Cards from "./Cards"
 
-const CardsContainer: FC = () => {
+const StaticCardsContainer: FC = () => {
     const cardData = [
         {
             heading: 'earning',
@@ -17,13 +17,13 @@ const CardsContainer: FC = () => {
         },
     ]
     return (
-        <div className="flex m-3 w-full">
+        <div className="flex w-fit md:flex-col">
             <div className="flex justify-between md:flex-col">
                 {cardData.map(item => (
-                    <Cards data={item} />
+                    <Cards key={item.heading} data={item} />
                 ))}
             </div>
         </div>
     )
 }
-export default CardsContainer
+export default StaticCardsContainer

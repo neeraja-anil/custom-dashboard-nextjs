@@ -1,8 +1,13 @@
+'use client'
+
 import Navbar from '@/components/Navbar'
 import './globals.css'
+import "/node_modules/react-grid-layout/css/styles.css"
+import "/node_modules/react-resizable/css/styles.css"
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import SideBar from './SideBar'
+import { GlobalContextProvider } from '@/context/globalContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,12 +23,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className='bg-gray-50'>
-      <body className={inter.className}>
-        <SideBar>
-          <Navbar />
-          {children}
-        </SideBar>
-      </body>
+      <GlobalContextProvider>
+        <body className={inter.className}>
+          <SideBar>
+            <Navbar />
+            {children}
+          </SideBar>
+        </body>
+      </GlobalContextProvider>
     </html>
   )
 }
