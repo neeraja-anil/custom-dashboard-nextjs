@@ -47,7 +47,7 @@ export default function CreateDashboard() {
                 </div>
                 {/* <------------end of top div---------------> */}
             </div>
-            <div className="mx-4">
+            <div className={showDialog ? `blurredBg mx-4` : 'mx-4'}>
                 <DraggableResizableContainer />
             </div>
 
