@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import DraggableResizableContainer from "../DraggableResizableGridContainer"
 import Form from "@/components/Form";
+import EditDashboardForm from "@/components/EditDashboardForm";
 
 export default function CreateDashboard({ params }: { params: { id: string } }) {
     const [showDialog, setShowDialog] = useState(false)
@@ -63,7 +64,7 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
                         </div>
 
                     </div>
-                    {showDialog && <Form />}
+                    {showDialog && <EditDashboardForm id={params.id} dName={dashboard.dName} setShowDialog={setShowDialog} />}
 
                 </div>
                 {/* <------------end of top div---------------> */}
