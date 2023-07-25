@@ -1,3 +1,5 @@
+'use client'
+
 import { GlobalContext } from '@/context/globalContext'
 import React, { FC, useState, useContext } from 'react'
 import { toast } from 'react-hot-toast'

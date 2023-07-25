@@ -1,3 +1,5 @@
+'use-client'
+
 import Link from 'next/link'
 import React, { ReactNode } from 'react'
 import { IoMdCreate, IoMdSearch, IoIosPerson, IoIosBuild } from 'react-icons/io'

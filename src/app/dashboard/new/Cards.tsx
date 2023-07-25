@@ -1,3 +1,5 @@
+'use-client'
+
 import React, { FC } from "react"
 import Container from "../../../components/Container"
 import { BsGraphUpArrow, BsGraphDownArrow } from 'react-icons/bs'

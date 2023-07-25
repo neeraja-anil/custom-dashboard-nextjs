@@ -1,7 +1,7 @@
-import React, { FC } from "react"
+import React from "react"
 import Cards from "./Cards"
 
-const StaticCardsContainer: FC = () => {
+const StaticCardsContainer = () => {
     const cardData = [
         {
             heading: 'earning',
