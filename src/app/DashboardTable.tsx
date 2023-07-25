@@ -10,12 +10,14 @@ type props = {
 
 const DashboardTable: FC<props> = ({ keyword }) => {
     const [dashboards, setDashboards] = useState([])
+    const [searchResult, setSearchResult] = useState([])
 
 
     const fetchDashboards = () => {
         const storedLayouts = localStorage.getItem('layoutData')
         const layouts = storedLayouts ? JSON.parse(storedLayouts) : [];
         setDashboards(layouts)
+        setSearchResult(layouts)
     }
 
     const handleSearch = () => {
@@ -26,7 +28,7 @@ const DashboardTable: FC<props> = ({ keyword }) => {
                 data.dName.toLowerCase().includes(keyword.toLowerCase())
             )
             console.log(filterBySearch)
-            setDashboards(filterBySearch)
+            setSearchResult(filterBySearch)
         }
     }
 
@@ -57,6 +59,7 @@ const DashboardTable: FC<props> = ({ keyword }) => {
 
     useEffect(() => {
         handleSearch()
+        console.log(keyword)
     }, [keyword])
 
 
@@ -82,7 +85,7 @@ const DashboardTable: FC<props> = ({ keyword }) => {
                     </thead>
                     <tbody>
                         {/* MAPPING THROUGH SAVED DASHBOARDS */}
-                        {dashboards.map((data: any) => (
+                        {searchResult.map((data: any) => (
                             <tr key={data.id} className="bg-blue-50 border-b border-blue-200 hover:bg-blue-100">
                                 <th scope="row" className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
                                     <LuLayoutDashboard className='text-blue-500 ' />
