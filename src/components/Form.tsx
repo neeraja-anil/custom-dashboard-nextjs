@@ -1,5 +1,6 @@
 import { GlobalContext } from '@/context/globalContext'
 import React, { FC, useState, useContext } from 'react'
+import { toast } from 'react-hot-toast'
 
 type props = {
     setShowDialog: any
@@ -18,16 +19,15 @@ const Form: FC<props> = ({ setShowDialog, setIsSaved }) => {
         const layoutData = { id, dName, layout, date }
         const storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]");
         const isExist = storedLayoutData.filter((data: any) => data.dName === layoutData.dName)
-        console.log(isExist)
         if (isExist.length === 0) {
             storedLayoutData.push(layoutData)
             localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
-            alert('data saved')
+            toast.success('New dashboard created')
             setIsSaved(true)
             setDashboard(layoutData)
             setShowDialog(false)
         } else {
-            alert('dashboard with same name already exist, choose another name')
+            toast.error('dashboard with same name already exist, choose another name')
         }
 
     }

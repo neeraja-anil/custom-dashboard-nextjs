@@ -1,5 +1,6 @@
-import { GlobalContext } from '@/context/globalContext'
 import React, { FC, useState, useContext } from 'react'
+import { toast } from 'react-hot-toast'
+
 
 type props = {
     id: string,
@@ -28,7 +29,7 @@ const EditDashboardForm: FC<props> = ({ id, dName, setShowDialog, setIsEdit }) =
         })
         console.log(storedLayoutData)
         localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
-        alert('data updated')
+        toast.success('data updated')
         //SETTING ISEDIT,SHOWDIALOG PROPS FROM [ID]>PAGE TO FALSE 
         setIsEdit(false)
         setShowDialog(false)

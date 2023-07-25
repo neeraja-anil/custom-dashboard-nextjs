@@ -8,6 +8,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import SideBar from '../components/SideBar'
 import { GlobalContextProvider } from '@/context/globalContext'
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,6 +30,7 @@ export default function RootLayout({
             <Navbar />
             {children}
           </SideBar>
+          <Toaster />
         </body>
       </GlobalContextProvider>
     </html>

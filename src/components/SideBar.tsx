@@ -6,8 +6,8 @@ import { IoMdCreate, IoMdSearch, IoIosPerson, IoIosBuild } from 'react-icons/io'
 
 const SideBar = ({ children }: { children: ReactNode }) => {
     return (
-        <div className='flex'>
-            <div className='fixed w-40 sm:w-20 h-screen p-4 bg-blue-900 flex-col justify-between'>
+        <div className='flex '>
+            <div className='fixed w-40 sm:w-20 h-screen p-4 bg-blue-900 flex-col justify-between z-50'>
                 <div className='flex items-center justify-center flex-col'>
                     <Link href={`/`}>
                         <div className='bg-blue-700 hover:bg-blue-900 rounded-lg p-4 flex items-center cursor-pointer'>

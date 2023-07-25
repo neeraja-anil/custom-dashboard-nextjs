@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import Container from "./Container"
+import Container from "../../../components/Container"
 import { BsGraphUpArrow, BsGraphDownArrow } from 'react-icons/bs'
 
 type props = {

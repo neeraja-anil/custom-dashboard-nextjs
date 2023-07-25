@@ -3,6 +3,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { HiOutlineEye, HiOutlineTrash } from 'react-icons/hi'
 import Link from 'next/link'
+import { toast } from 'react-hot-toast'
 
 type props = {
     keyword: string
@@ -27,7 +28,6 @@ const DashboardTable: FC<props> = ({ keyword }) => {
             const filterBySearch = dashboards.filter((data: any) =>
                 data.dName.toLowerCase().includes(keyword.toLowerCase())
             )
-            console.log(filterBySearch)
             setSearchResult(filterBySearch)
         }
     }
@@ -47,7 +47,7 @@ const DashboardTable: FC<props> = ({ keyword }) => {
 
             // Update the modified array back to localStorage
             localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
-            alert('data deleted')
+            toast.success('your dashboard deleted')
             //update the ui
             fetchDashboards()
         }
@@ -59,7 +59,6 @@ const DashboardTable: FC<props> = ({ keyword }) => {
 
     useEffect(() => {
         handleSearch()
-        console.log(keyword)
     }, [keyword])
 
 
