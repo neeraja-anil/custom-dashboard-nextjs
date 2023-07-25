@@ -1,18 +1,35 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { HiOutlineEye, HiOutlineTrash } from 'react-icons/hi'
 import Link from 'next/link'
 
+type props = {
+    keyword: string
+}
 
-const DashboardTable = () => {
+const DashboardTable: FC<props> = ({ keyword }) => {
     const [dashboards, setDashboards] = useState([])
+
 
     const fetchDashboards = () => {
         const storedLayouts = localStorage.getItem('layoutData')
         const layouts = storedLayouts ? JSON.parse(storedLayouts) : [];
         setDashboards(layouts)
     }
+
+    const handleSearch = () => {
+        if (keyword === '') {
+            fetchDashboards()
+        } else {
+            const filterBySearch = dashboards.filter((data: any) =>
+                data.dName.toLowerCase().includes(keyword.toLowerCase())
+            )
+            console.log(filterBySearch)
+            setDashboards(filterBySearch)
+        }
+    }
+
 
     const deleteDashboard = (id: string) => {
         let storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]")
@@ -38,35 +55,63 @@ const DashboardTable = () => {
         fetchDashboards()
     }, [])
 
+    useEffect(() => {
+        handleSearch()
+    }, [keyword])
+
+
     return (
         <div>
             <div className='w-full col-span-1  realtive lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white overflow-scroll scroll'>
-                <ul>
-                    {dashboards.map((data: any) => (
-                        <li key={data.id} className='bg-gray-50 hover:bg-gray-100 rounded-lg px-3 my-3 flex justify-between items-center cursor-pointer'>
-                            <div className='flex justify-between items-center'>
-                                <div className='bg-blue-200 rounded p-4'>
-                                    <LuLayoutDashboard className='text-blue-900 ' />
-                                </div>
-                                <div className='pl-4'>
-                                    <p className='text-blue-900 font-bold'>{data.dName}</p>
-                                </div>
+                <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+                    <thead className="text-xs text-white uppercase bg-blue-600 dark:text-white">
+                        <tr>
+                            <th scope="col" className="px-6 py-3">
+                                <LuLayoutDashboard className='text-white ' />
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Dashboard name
+                            </th>
+                            <th scope="col" className="px-6 py-3">
+                                Date
+                            </th>
+                            <th scope="col" className="px-6 py-3">
 
-                            </div>
-                            <div className='flex relative justify-between items-center'>
-                                <p className='text-blue-200 p-3 text-sm'>{data.date}</p>
-                                <Link href={`/dashboard/${data.id}`} >
-                                    <div className='hover:bg-blue-100 p-4'>
-                                        <HiOutlineEye />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* MAPPING THROUGH SAVED DASHBOARDS */}
+                        {dashboards.map((data: any) => (
+                            <tr key={data.id} className="bg-blue-50 border-b border-blue-200 hover:bg-blue-100">
+                                <th scope="row" className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                                    <LuLayoutDashboard className='text-blue-500 ' />
+
+                                </th>
+                                <th scope="row" className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
+                                    <p className='text-blue-900 font-bold'>{data.dName}</p>
+                                </th>
+                                <td className="px-6 py-4">
+                                    <p className='text-blue-400 text-sm'>{data.date}</p>
+
+                                </td>
+                                <td className="px-6 ">
+                                    <div className='flex justify-end items-center'>
+                                        <Link href={`/dashboard/${data.id}`} >
+                                            <div className='hover:bg-blue-200 p-4'>
+                                                <HiOutlineEye className='text-blue-500 hover:text-white' />
+                                            </div>
+                                        </Link>
+                                        <div className='hover:bg-red-100 p-4' onClick={() => deleteDashboard(data.id)}>
+                                            <HiOutlineTrash className='text-red-900' />
+                                        </div>
                                     </div>
-                                </Link>
-                                <div className='hover:bg-red-100 p-4' onClick={() => deleteDashboard(data.id)}>
-                                    <HiOutlineTrash className='text-red-900' />
-                                </div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
+
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
 

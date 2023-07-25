@@ -9,22 +9,21 @@ import { GlobalContext } from "@/context/globalContext";
 
 //props for viewing or changing layout after saving
 type props = {
+    isSaved?: boolean
     savedDashboard?: []
     isEdit?: boolean
 }
 
-const DraggableResizableChart: FC<props> = ({ savedDashboard, isEdit }): JSX.Element => {
+const DraggableResizableChart: FC<props> = ({ savedDashboard, isEdit, isSaved }): JSX.Element => {
     const { layout: curLayout, setLayout } = useContext(GlobalContext)
-    // console.log('d', savedDashboard)
-    console.log('e', isEdit)
     const edit = isEdit && !!savedDashboard
     console.log('edit', edit)
 
     const layout = savedDashboard ? savedDashboard : [
         { i: "static", x: 0, y: 0, w: 6.5, h: 1.5, static: true },
-        { i: "bar", x: 1, y: 0, w: 4, h: 2, minH: 2, minW: 4 },
-        { i: "pie", x: 1, y: 0, w: 3, h: 3, minH: 2, minW: 2 },
-        { i: "discount", x: 6, y: 0, w: 3, h: 1.5, minH: 1.5, minW: 3 },
+        { i: "bar", x: 0, y: 1.5, w: 4, h: 2, minH: 2, minW: 4 },
+        { i: "pie", x: 7, y: 0, w: 3, h: 2, minH: 2, minW: 2 },
+        { i: "discount", x: 4, y: 1.5, w: 3, h: 1.5, minH: 1.5, minW: 3 },
     ];
 
     const onLayoutChange = (newLayout: any) => {
@@ -42,7 +41,7 @@ const DraggableResizableChart: FC<props> = ({ savedDashboard, isEdit }): JSX.Ele
 
                 onLayoutChange={onLayoutChange}
                 draggableHandle=".drag-handle"
-                isResizable={edit ? true : savedDashboard ? false : true}
+                isResizable={isSaved ? false : edit ? true : savedDashboard ? false : true}
             >
                 <div key="static" className="chart-item ">
                     <StaticCardsContainer />

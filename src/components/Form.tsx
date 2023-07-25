@@ -3,11 +3,13 @@ import React, { FC, useState, useContext } from 'react'
 
 type props = {
     setShowDialog: any
+    setIsSaved: any
 }
 
-const Form: FC<props> = ({ setShowDialog }) => {
+const Form: FC<props> = ({ setShowDialog, setIsSaved }) => {
     const [dName, setDName] = useState('')
     const { layout } = useContext(GlobalContext)
+    const { setDashboard } = useContext(GlobalContext)
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -15,14 +17,23 @@ const Form: FC<props> = ({ setShowDialog }) => {
         const id = `layout_${date}`;
         const layoutData = { id, dName, layout, date }
         const storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]");
-        storedLayoutData.push(layoutData)
-        localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
-        alert('data saved')
-        setShowDialog(false)
+        const isExist = storedLayoutData.filter((data: any) => data.dName === layoutData.dName)
+        console.log(isExist)
+        if (isExist.length === 0) {
+            storedLayoutData.push(layoutData)
+            localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
+            alert('data saved')
+            setIsSaved(true)
+            setDashboard(layoutData)
+            setShowDialog(false)
+        } else {
+            alert('dashboard with same name already exist, choose another name')
+        }
+
     }
 
     return (
-        <div className='dialog'>
+        <div className='dialog shadow-sm'>
             <form onSubmit={handleSubmit}>
                 <div className="mb-6">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dashboard Name</label>

@@ -83,7 +83,7 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
                         </div>
 
                     </div>
-                    {showDialog && <EditDashboardForm id={params.id} dName={dashboard.dName} setShowDialog={setShowDialog} />}
+                    {showDialog && <EditDashboardForm id={params.id} dName={dashboard.dName} setShowDialog={setShowDialog} setIsEdit={setIsEdit} />}
 
                 </div>
                 {/* <------------end of top div---------------> */}

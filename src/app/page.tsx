@@ -1,13 +1,20 @@
+'use client'
+import { useState } from 'react'
 import Link from 'next/link';
 import DashboardTable from './DashboardTable';
-import Search from './Search';
+import Search from '../components/Search';
 
 export default function Home() {
+  const [keyword, setKeyword] = useState('')
+
+  const handleSearch = (query: any) => {
+    setKeyword(query)
+  }
   return (
     <>
       <main className="min-h-screen bg-gray-100 p-4">
         <div>
-          <Search />
+          <Search onSearch={handleSearch} />
         </div>
         <div className='flex justify-end px-4'>
           <Link href='/dashboard/new'>
@@ -18,7 +25,7 @@ export default function Home() {
         </div>
 
         <div className='p-4 grid md:grid-cols-1 grid-cols-1'>
-          <DashboardTable />
+          <DashboardTable keyword={keyword} />
         </div>
       </main>
     </>

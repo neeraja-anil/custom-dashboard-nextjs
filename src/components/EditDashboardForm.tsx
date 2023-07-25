@@ -4,10 +4,11 @@ import React, { FC, useState, useContext } from 'react'
 type props = {
     id: string,
     dName: string,
-    setShowDialog: any
+    setShowDialog: any,
+    setIsEdit: any,
 }
 
-const EditDashboardForm: FC<props> = ({ id, dName, setShowDialog }) => {
+const EditDashboardForm: FC<props> = ({ id, dName, setShowDialog, setIsEdit }) => {
     const [newDashboardName, setNewDashboardName] = useState(dName)
 
     const handleEdit = async (e: any) => {
@@ -28,11 +29,13 @@ const EditDashboardForm: FC<props> = ({ id, dName, setShowDialog }) => {
         console.log(storedLayoutData)
         localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
         alert('data updated')
+        //SETTING ISEDIT,SHOWDIALOG PROPS FROM [ID]>PAGE TO FALSE 
+        setIsEdit(false)
         setShowDialog(false)
     }
 
     return (
-        <div className='dialog'>
+        <div className='dialog shadow-sm'>
             <form onSubmit={handleEdit}>
                 <div className="mb-6">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Edit Dashboard</label>
