@@ -16,7 +16,8 @@ const Form: FC<props> = ({ setShowDialog, setIsSaved }) => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
-        const date = Date.now()
+        const dateNow = Date.now()
+        const date = new Date(dateNow).toISOString().substr(0, 10)
         const id = `layout_${date}`;
         const layoutData = { id, dName, layout, date }
         const storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]");
