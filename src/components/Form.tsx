@@ -18,7 +18,7 @@ const Form: FC<props> = ({ setShowDialog, setIsSaved }) => {
         e.preventDefault()
         const dateNow = Date.now()
         const date = new Date(dateNow).toISOString().substr(0, 10)
-        const id = `layout_${date}`;
+        const id = `layout_${dateNow}`;
         const layoutData = { id, dName, layout, date }
         const storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]");
         const isExist = storedLayoutData.filter((data: any) => data.dName === layoutData.dName)
