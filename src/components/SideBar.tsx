@@ -12,17 +12,19 @@ const SideBar = ({ children }: { children: ReactNode }) => {
             <div className='fixed w-40 sm:w-20 h-screen p-4 bg-blue-900 flex-col justify-between z-50'>
                 <div className='flex items-center justify-center flex-col'>
                     <Link href={`/`}>
-                        <div className='bg-blue-700 hover:bg-blue-900 rounded-lg p-4 flex items-center cursor-pointer'>
+                        <div className='bg-blue-700 hover:bg-blue-500 rounded-lg p-4 flex items-center cursor-pointer'>
                             <h2 className='text-white text-bold'>DB</h2>
                         </div>
                     </Link>
 
                     {/* <h1 className='text-white origin-left '>Designer</h1> */}
                     <span className='border-b-[1px] border-gray-100 w-full p-2'></span>
-                    <div className='flex justify-evenly items-center p-4 w-full hover:bg-blue-500'>
-                        <IoMdCreate className='text-white' />
-                        <p className='pl-3 text-white text-sm sm:hidden'>Create</p>
-                    </div>
+                    <Link href='/dashboard/new'>
+                        <div className='flex justify-evenly items-center p-4 w-full hover:bg-blue-500 cursor-pointer'>
+                            <IoMdCreate className='text-white' />
+                            <p className='pl-3 text-white text-sm sm:hidden'>Create</p>
+                        </div>
+                    </Link>
                     <div className='flex justify-evenly items-center p-4 w-full hover:bg-blue-500'>
                         <IoMdSearch className='text-white' />
                         <p className='pl-3 text-white text-sm sm:hidden'>Search</p>
