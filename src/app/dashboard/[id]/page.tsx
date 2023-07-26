@@ -44,9 +44,9 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
                                 </button>
                             </div>
                             <div className="grid grid-cols-3 divide-x divide-gray-300">
-                                <div className="p-2 text-sm hover:cursor-pointer ">Bar chart</div>
-                                <div className="p-2 text-sm hover:cursor-pointer ">Pie chart</div>
-                                <div className="p-2 text-sm hover:cursor-pointer ">Campaign</div>
+                                <div className="p-2 text-sm ">Bar chart</div>
+                                <div className="p-2 text-sm ">Pie chart</div>
+                                <div className="p-2 text-sm ">Campaign</div>
                             </div>
 
                         </div>
