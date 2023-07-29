@@ -1,20 +1,43 @@
 'use client'
 
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import DraggableResizableContainer from "../DraggableResizableGridContainer"
 import Form from "@/components/Form";
 import { GlobalContext } from "@/context/globalContext";
+import html2canvas from 'html2canvas'
+
 
 export default function CreateDashboard() {
     const [showDialog, setShowDialog] = useState(false)
-
     const [isSaved, setIsSaved] = useState(false)
     const { dashboard } = useContext(GlobalContext)
 
+    const comRef = useRef(null)
 
+    //FUNCTION TO TAKE SCREENSHOT OF DASHBOARD
+    const handleScreenshot = async () => {
+        const component = comRef.current
+        if (!component) {
+            return
+        }
+
+        const canvas = await html2canvas(component)
+        // Convert the canvas to a base64 data URL
+        const image = canvas.toDataURL('image/png');
+        // Send the screenshot and the filename to the server-side endpoint
+        const res = await fetch('/api/screenshot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ screenshot: image }),
+        });
+        const data = await res.json()
+        console.log(data)
+    }
 
     return (
-        <div className="bg-white h-screen">
+        <div className="bg-white h-screen" id="screenshot" >
             <div className="mx-4">
                 <div className="w-full flex py-4">
                     <h1 className="font-bold ">
@@ -49,12 +72,12 @@ export default function CreateDashboard() {
                             SAVE LAYOUT
                         </button>
                     </div>
-                    {showDialog && <Form setShowDialog={setShowDialog} setIsSaved={setIsSaved} />}
+                    {showDialog && <Form setShowDialog={setShowDialog} setIsSaved={setIsSaved} handleScreenshot={handleScreenshot} />}
 
                 </div>
                 {/* <------------end of top div---------------> */}
             </div>
-            <div className={showDialog ? `blurredBg mx-4` : 'mx-4'}>
+            <div className={showDialog ? `blurredBg mx-4` : 'mx-4'} ref={comRef}>
                 <DraggableResizableContainer isSaved={isSaved} />
             </div>
 

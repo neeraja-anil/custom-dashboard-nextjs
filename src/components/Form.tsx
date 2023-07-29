@@ -7,9 +7,10 @@ import { toast } from 'react-hot-toast'
 type props = {
     setShowDialog: any
     setIsSaved: any
+    handleScreenshot: any
 }
 
-const Form: FC<props> = ({ setShowDialog, setIsSaved }) => {
+const Form: FC<props> = ({ setShowDialog, setIsSaved, handleScreenshot }) => {
     const [dName, setDName] = useState('')
     const { layout } = useContext(GlobalContext)
     const { setDashboard } = useContext(GlobalContext)
@@ -28,6 +29,8 @@ const Form: FC<props> = ({ setShowDialog, setIsSaved }) => {
             toast.success('New dashboard created')
             setIsSaved(true)
             setDashboard(layoutData)
+            // call fn only if the dashboard is saved 
+            handleScreenshot()
             setShowDialog(false)
         } else {
             toast.error('dashboard with same name already exist, choose another name')
