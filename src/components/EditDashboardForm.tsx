@@ -1,4 +1,5 @@
 'use-client'
+import { GlobalContext } from '@/context/globalContext'
 import React, { FC, useState, useContext } from 'react'
 import { toast } from 'react-hot-toast'
 
@@ -8,21 +9,28 @@ type props = {
     dName: string,
     setShowDialog: any,
     setIsEdit: any,
+    handleScreenshot: any,
 }
 
-const EditDashboardForm: FC<props> = ({ id, dName, setShowDialog, setIsEdit }) => {
+const EditDashboardForm: FC<props> = ({ id, dName, setShowDialog, setIsEdit, handleScreenshot }) => {
     const [newDashboardName, setNewDashboardName] = useState(dName)
+    const { layout } = useContext(GlobalContext)
+
 
     const handleEdit = async (e: any) => {
         e.preventDefault()
         const date = Date.now()
         let storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]");
+        // call handleScreenshot fn when dashboard is saved 
+        const previewData = await handleScreenshot()
         // UPDATE CURRENT DATA IN LOCAL STORAGE 
         storedLayoutData = storedLayoutData.map((data: any) => {
             if (data.id === id) {
                 return {
                     ...data,
                     dName: newDashboardName || data.dName,
+                    layout: layout,
+                    preview: previewData,
                     updatedTime: date
                 }
             }

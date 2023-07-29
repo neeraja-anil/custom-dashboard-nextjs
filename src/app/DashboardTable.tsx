@@ -1,5 +1,6 @@
 'use client'
 import React, { FC, useEffect, useState } from 'react'
+import Image from 'next/image'
 import { LuLayoutDashboard } from 'react-icons/lu'
 import { HiOutlineEye, HiOutlineTrash } from 'react-icons/hi'
 import Link from 'next/link'
@@ -87,8 +88,16 @@ const DashboardTable: FC<props> = ({ keyword }) => {
                         {searchResult.map((data: any) => (
                             <tr key={data.id} className="bg-blue-50 border-b border-blue-200 hover:bg-blue-100">
                                 <th scope="row" className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
-                                    <LuLayoutDashboard className='text-blue-500 ' />
+                                    <Link href={`/dashboard/${data.id}`} >
 
+                                        <Image
+                                            src={`/images/${data.preview}.jpg`}
+                                            width={100}
+                                            height={100}
+                                            alt="Preview of dashboard"
+                                            className='rounded-lg'
+                                        />
+                                    </Link>
                                 </th>
                                 <th scope="row" className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
                                     <p className='text-blue-900 font-bold'>{data.dName}</p>
@@ -100,11 +109,12 @@ const DashboardTable: FC<props> = ({ keyword }) => {
                                 <td className="px-6 ">
                                     <div className='flex justify-end items-center'>
                                         <Link href={`/dashboard/${data.id}`} >
-                                            <div className='hover:bg-blue-200 p-4'>
+                                            {/* <div className='hover:bg-blue-200 p-4'>
                                                 <HiOutlineEye className='text-blue-500 hover:text-white' />
-                                            </div>
+                                            </div> */}
+
                                         </Link>
-                                        <div className='hover:bg-red-100 p-4' onClick={() => deleteDashboard(data.id)}>
+                                        <div className='hover:bg-red-100 p-4 cursor-pointer' onClick={() => deleteDashboard(data.id)}>
                                             <HiOutlineTrash className='text-red-900' />
                                         </div>
                                     </div>

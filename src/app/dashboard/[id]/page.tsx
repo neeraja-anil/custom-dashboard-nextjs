@@ -1,13 +1,14 @@
 'use client'
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DraggableResizableContainer from "../DraggableResizableGridContainer"
-import Form from "@/components/Form";
+import html2canvas from "html2canvas";
 import EditDashboardForm from "@/components/EditDashboardForm";
 
 export default function CreateDashboard({ params }: { params: { id: string } }) {
     const [showDialog, setShowDialog] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
     const [dashboard, setDashboard] = useState<{ [key: string]: any }>({})
+    const comRef = useRef(null)
 
     const fetchSavedDashboard = () => {
         const storedLayouts = localStorage.getItem('layoutData')
@@ -19,6 +20,28 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
     const handleCancelEdit = () => {
         fetchSavedDashboard()
         setIsEdit(false)
+    }
+
+    //FUNCTION TO TAKE SCREENSHOT OF DASHBOARD
+    const handleScreenshot = async () => {
+        const component = comRef.current
+        if (!component) {
+            return
+        }
+
+        const canvas = await html2canvas(component)
+        // Convert the canvas to a base64 data URL
+        const image = canvas.toDataURL('image/png');
+        // Send the screenshot and the filename to the server-side endpoint
+        const res = await fetch('/api/screenshot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ screenshot: image }),
+        });
+        const data = await res.json()
+        return data
     }
 
     useEffect(() => {
@@ -83,12 +106,12 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
                         </div>
 
                     </div>
-                    {showDialog && <EditDashboardForm id={params.id} dName={dashboard.dName} setShowDialog={setShowDialog} setIsEdit={setIsEdit} />}
+                    {showDialog && <EditDashboardForm id={params.id} dName={dashboard.dName} setShowDialog={setShowDialog} setIsEdit={setIsEdit} handleScreenshot={handleScreenshot} />}
 
                 </div>
                 {/* <------------end of top div---------------> */}
             </div>
-            <div className={showDialog ? `blurredBg mx-4` : 'mx-4'}>
+            <div className={showDialog ? `blurredBg mx-4` : 'mx-4'} ref={comRef}>
                 <DraggableResizableContainer savedDashboard={dashboard.layout} isEdit={isEdit} />
             </div>
 

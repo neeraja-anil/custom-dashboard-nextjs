@@ -20,17 +20,20 @@ const Form: FC<props> = ({ setShowDialog, setIsSaved, handleScreenshot }) => {
         const dateNow = Date.now()
         const date = new Date(dateNow).toISOString().substr(0, 10)
         const id = `layout_${dateNow}`;
-        const layoutData = { id, dName, layout, date }
+        let preview = ''
+        const layoutData = { id, dName, layout, date, preview }
         const storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]");
         const isExist = storedLayoutData.filter((data: any) => data.dName === layoutData.dName)
         if (isExist.length === 0) {
+            // call handleScreenshot fn when dashboard is saved 
+            const data = await handleScreenshot()
+            layoutData.preview = data
+
             storedLayoutData.push(layoutData)
             localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
             toast.success('New dashboard created')
             setIsSaved(true)
             setDashboard(layoutData)
-            // call fn only if the dashboard is saved 
-            handleScreenshot()
             setShowDialog(false)
         } else {
             toast.error('dashboard with same name already exist, choose another name')

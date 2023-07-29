@@ -19,7 +19,7 @@ const POST = async (req: NextRequest, res: NextResponse) => {
 
         console.log(imagePath)
 
-        return NextResponse.json(imagePath);
+        return NextResponse.json(filename);
     } catch (error) {
         console.error('Error saving screenshot:', error);
         return NextResponse.json({ error: 'Error saving screenshot' });

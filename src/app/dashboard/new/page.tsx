@@ -33,7 +33,7 @@ export default function CreateDashboard() {
             body: JSON.stringify({ screenshot: image }),
         });
         const data = await res.json()
-        console.log(data)
+        return data
     }
 
     return (
