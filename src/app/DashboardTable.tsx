@@ -65,7 +65,7 @@ const DashboardTable: FC<props> = ({ keyword }) => {
 
     return (
         <div>
-            <div className='w-full col-span-1  realtive lg:h-[70vh] h-[50vh] m-auto p-4 border rounded-lg bg-white overflow-scroll scroll'>
+            <div className='w-full col-span-1  realtive md:h-[50vh] h-[60vh] m-auto p-4 border rounded-lg bg-white overflow-scroll scroll'>
                 <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
                     <thead className="text-xs text-white uppercase bg-blue-600 dark:text-white">
                         <tr>

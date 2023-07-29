@@ -3,12 +3,16 @@ import React, { useState, useEffect, useRef } from "react";
 import DraggableResizableContainer from "../DraggableResizableGridContainer"
 import html2canvas from "html2canvas";
 import EditDashboardForm from "@/components/EditDashboardForm";
+import { useRouter } from 'next/navigation'
+import { HiOutlineTrash } from "react-icons/hi";
+import { toast } from "react-hot-toast";
 
 export default function CreateDashboard({ params }: { params: { id: string } }) {
     const [showDialog, setShowDialog] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
     const [dashboard, setDashboard] = useState<{ [key: string]: any }>({})
     const comRef = useRef(null)
+    const { push } = useRouter()
 
     const fetchSavedDashboard = () => {
         const storedLayouts = localStorage.getItem('layoutData')
@@ -44,6 +48,27 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
         return data
     }
 
+
+    //DELETE DASHBOARD
+    const deleteDashboard = (id: string) => {
+        let storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]")
+
+        const isConfirmed = window.confirm('Are you sure you want to delete?');
+        if (isConfirmed) {
+            // DELETE CURRENT DATA IN LOCAL STORAGE 
+            const index = storedLayoutData.findIndex((data: any) => data.id === id);
+            if (index !== -1) {
+                // Remove the item from the array
+                storedLayoutData.splice(index, 1);
+            }
+
+            // Update the modified array back to localStorage
+            localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
+            toast.success('your dashboard deleted')
+            push('/')
+        }
+    }
+
     useEffect(() => {
         fetchSavedDashboard()
     }, [])
@@ -74,7 +99,7 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
 
                         </div>
                     </div>
-                    <div className="flex">
+                    <div className="flex items-center">
                         {
                             isEdit &&
                             <div className="mx-1">
@@ -104,7 +129,9 @@ export default function CreateDashboard({ params }: { params: { id: string } }) 
                             )}
 
                         </div>
-
+                        <div className='hover:bg-red-100 p-4 rounded cursor-pointer' onClick={() => deleteDashboard(params.id)}>
+                            <HiOutlineTrash className='text-red-900' />
+                        </div>
                     </div>
                     {showDialog && <EditDashboardForm id={params.id} dName={dashboard.dName} setShowDialog={setShowDialog} setIsEdit={setIsEdit} handleScreenshot={handleScreenshot} />}
 
