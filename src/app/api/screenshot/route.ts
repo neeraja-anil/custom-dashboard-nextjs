@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import cloudinary from '@/utils/cloudinary';
+import streamifier from 'streamifier'
 import fs from 'fs';
-import path from 'path';
+import path, { resolve } from 'path';
 
 const POST = async (req: NextRequest, res: NextResponse) => {
     try {
@@ -13,13 +15,28 @@ const POST = async (req: NextRequest, res: NextResponse) => {
         // Remove the data URI header to extract the actual image data
         const imageBuffer = Buffer.from(base64Data.replace(/^data:image\/(png|jpeg|jpg);base64,/, ''), 'base64');
 
-        // Save the image to the public/images folder
-        const imagePath = path.join(process.cwd(), 'public', 'images', `${filename}.jpg`)
-        fs.writeFileSync(imagePath, imageBuffer);
+        // Upload the image to Cloudinary
 
-        console.log(imagePath)
+        const uploadToCloudinary = () => {
+            return new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream({ folder: 'previews' }, (error, response) => {
+                    if (error) {
+                        console.error('Error uploading screenshot:', error);
+                        reject(error)
+                    } else {
+                        console.log('Image uploaded to Cloudinary:', response);
+                        resolve(response?.secure_url)
+                    }
+                }
+                )
+                streamifier.createReadStream(imageBuffer).pipe(stream);
+            })
+        }
+        // Upload the image to Cloudinary and get the secure URL
+        const secureUrl = await uploadToCloudinary()
+        console.log(secureUrl)
+        return NextResponse.json(secureUrl);
 
-        return NextResponse.json(filename);
     } catch (error) {
         console.error('Error saving screenshot:', error);
         return NextResponse.json({ error: 'Error saving screenshot' });

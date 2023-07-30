@@ -91,12 +91,16 @@ const DashboardTable: FC<props> = ({ keyword }) => {
                                     <Link href={`/dashboard/${data.id}`} >
 
                                         <Image
-                                            src={`/images/${data.preview}.jpg`}
-                                            width={100}
-                                            height={100}
+                                            src={data.preview}
+                                            objectFit="contain"
+                                            // layout='responsive'
+                                            width={50}
+                                            height={50}
                                             alt="Preview of dashboard"
                                             className='rounded-lg'
                                         />
+
+
                                     </Link>
                                 </th>
                                 <th scope="row" className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100">
