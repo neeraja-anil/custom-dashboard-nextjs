@@ -5,6 +5,7 @@ import { LuLayoutDashboard } from 'react-icons/lu'
 import { HiOutlineEye, HiOutlineTrash } from 'react-icons/hi'
 import Link from 'next/link'
 import { toast } from 'react-hot-toast'
+import Model from '@/components/Model'
 
 type props = {
     keyword: string
@@ -13,7 +14,8 @@ type props = {
 const DashboardTable: FC<props> = ({ keyword }) => {
     const [dashboards, setDashboards] = useState([])
     const [searchResult, setSearchResult] = useState([])
-
+    const [openModel, setOpenModel] = useState(false)
+    const [dashboardId, setDashboardId] = useState('')
 
     const fetchDashboards = () => {
         const storedLayouts = localStorage.getItem('layoutData')
@@ -34,24 +36,28 @@ const DashboardTable: FC<props> = ({ keyword }) => {
     }
 
 
-    const deleteDashboard = (id: string) => {
+    const handleDeleteDashboard = (id: string) => {
+        setOpenModel(true)
+        setDashboardId(id)
+    }
+    const handleCancelDelete = () => {
+        setOpenModel(false)
+    }
+    const handleConfirmDelete = (id: string) => {
         let storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]")
-
-        const isConfirmed = window.confirm('Are you sure you want to delete?');
-        if (isConfirmed) {
-            // DELETE CURRENT DATA IN LOCAL STORAGE 
-            const index = storedLayoutData.findIndex((data: any) => data.id === id);
-            if (index !== -1) {
-                // Remove the item from the array
-                storedLayoutData.splice(index, 1);
-            }
-
-            // Update the modified array back to localStorage
-            localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
-            toast.success('your dashboard deleted')
-            //update the ui
-            fetchDashboards()
+        // DELETE CURRENT DATA IN LOCAL STORAGE 
+        const index = storedLayoutData.findIndex((data: any) => data.id === id);
+        if (index !== -1) {
+            // Remove the item from the array
+            storedLayoutData.splice(index, 1);
         }
+
+        // Update the modified array back to localStorage
+        localStorage.setItem('layoutData', JSON.stringify(storedLayoutData));
+        toast.success('your dashboard deleted')
+        //update the ui
+        fetchDashboards()
+        // }
     }
 
     useEffect(() => {
@@ -94,8 +100,8 @@ const DashboardTable: FC<props> = ({ keyword }) => {
                                             src={data.preview}
                                             objectFit="contain"
                                             // layout='responsive'
-                                            width={50}
-                                            height={50}
+                                            width={100}
+                                            height={100}
                                             alt="Preview of dashboard"
                                             className='rounded-lg'
                                         />
@@ -118,7 +124,7 @@ const DashboardTable: FC<props> = ({ keyword }) => {
                                             </div> */}
 
                                         </Link>
-                                        <div className='hover:bg-red-100 p-4 cursor-pointer' onClick={() => deleteDashboard(data.id)}>
+                                        <div className='hover:bg-red-100 p-4 cursor-pointer' onClick={() => handleDeleteDashboard(data.id)}>
                                             <HiOutlineTrash className='text-red-900' />
                                         </div>
                                     </div>
@@ -128,6 +134,7 @@ const DashboardTable: FC<props> = ({ keyword }) => {
                         ))}
                     </tbody>
                 </table>
+                <Model isOpen={openModel} onCancel={handleCancelDelete} onDelete={handleConfirmDelete} id={dashboardId} />
             </div>
         </div>
 
