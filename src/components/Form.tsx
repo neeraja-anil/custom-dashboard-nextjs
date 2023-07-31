@@ -3,6 +3,7 @@
 import { GlobalContext } from '@/context/globalContext'
 import React, { FC, useState, useContext } from 'react'
 import { toast } from 'react-hot-toast'
+import Loader from './Loader'
 
 type props = {
     setShowDialog: any
@@ -14,6 +15,7 @@ const Form: FC<props> = ({ setShowDialog, setIsSaved, handleScreenshot }) => {
     const [dName, setDName] = useState('')
     const { layout } = useContext(GlobalContext)
     const { setDashboard } = useContext(GlobalContext)
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -25,8 +27,10 @@ const Form: FC<props> = ({ setShowDialog, setIsSaved, handleScreenshot }) => {
         const storedLayoutData = JSON.parse(localStorage.getItem("layoutData") || "[]");
         const isExist = storedLayoutData.filter((data: any) => data.dName === layoutData.dName)
         if (isExist.length === 0) {
+            setLoading(true)
             // call handleScreenshot fn when dashboard is saved 
             const data = await handleScreenshot()
+            setLoading(false)
             layoutData.preview = data
 
             storedLayoutData.push(layoutData)
@@ -65,6 +69,9 @@ const Form: FC<props> = ({ setShowDialog, setIsSaved, handleScreenshot }) => {
                         Cancel
                     </button>
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto mx-1 py-2.5 text-center ">Save</button>
+                </div>
+                <div className='flex justify-center items-center'>
+                    {loading && <Loader />}
                 </div>
             </form>
 
