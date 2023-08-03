@@ -1,7 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Deployed on Vercel
-Open https://custom-dashboard-neeraja.vercel.app/ with your browser to see the result.
+Open https://custom-dashboard-nextjs.vercel.app/ with your browser to see the result.
 
 ## Instructions:
 
